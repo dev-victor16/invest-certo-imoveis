@@ -1,0 +1,20 @@
+{
+  "name": "invest-certo-imoveis",
+  "version": "1.0.0",
+  "description": "Plataforma Web Digital & Inteligência Imobiliária - Invest Certo Imóveis",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js",
+    "test": "node scratch/test_suite.js"
+  },
+  "keywords": [
+    "imoveis",
+    "investimento-imobiliario",
+    "rentabilidade",
+    "real-estate",
+    "financiamento"
+  ],
+  "author": "Invest Certo Imóveis",
+  "license": "ISC"
+}

@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 460 90" width="100%" height="100%">
+  <defs>
+    <linearGradient id="emeraldGradW" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#10B981" />
+      <stop offset="100%" stop-color="#34D399" />
+    </linearGradient>
+    <linearGradient id="goldGradW" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#F59E0B" />
+      <stop offset="100%" stop-color="#FBBF24" />
+    </linearGradient>
+  </defs>
+
+  <g transform="translate(10, 5)">
+    <!-- Base Building Left -->
+    <path d="M12 75 L12 36 L34 20 L34 75 Z" fill="#334155" />
+    <!-- Tower Center with Ascending Roof -->
+    <path d="M38 75 L38 10 L62 2 L62 75 Z" fill="url(#emeraldGradW)" />
+    <!-- Dynamic Growth Arrow Cutting Across -->
+    <path d="M8 58 L46 26 L56 34 L78 12 L78 26 L72 32 L58 42 L46 34 L18 64 Z" fill="url(#goldGradW)" opacity="0.95" />
+    <!-- Arrow Head Peak -->
+    <polygon points="78,8 86,22 72,18" fill="url(#goldGradW)" />
+    <!-- Architectural Grid Windows Accent -->
+    <rect x="18" y="44" width="8" height="6" rx="1.5" fill="#64748B" />
+    <rect x="18" y="55" width="8" height="6" rx="1.5" fill="#64748B" />
+    <rect x="44" y="20" width="10" height="7" rx="1.5" fill="#FFFFFF" opacity="0.9" />
+    <rect x="44" y="32" width="10" height="7" rx="1.5" fill="#FFFFFF" opacity="0.9" />
+    <rect x="44" y="44" width="10" height="7" rx="1.5" fill="#FFFFFF" opacity="0.9" />
+    <rect x="44" y="56" width="10" height="7" rx="1.5" fill="#FFFFFF" opacity="0.9" />
+  </g>
+
+  <!-- Typography: INVEST CERTO -->
+  <text x="112" y="46" font-family="'Plus Jakarta Sans', 'Inter', -apple-system, sans-serif" font-weight="800" font-size="34" letter-spacing="-0.5" fill="#FFFFFF">
+    INVEST <tspan fill="#34D399">CERTO</tspan>
+  </text>
+
+  <!-- Subtitle with Corporate Badge Style -->
+  <text x="114" y="68" font-family="'Inter', -apple-system, sans-serif" font-weight="700" font-size="11" letter-spacing="3.5" fill="#94A3B8">
+    INTELIGÊNCIA IMOBILIÁRIA
+  </text>
+
+  <!-- Financial Dot Accent -->
+  <circle cx="430" cy="38" r="4" fill="#FBBF24" />
+</svg>
