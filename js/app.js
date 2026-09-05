@@ -115,14 +115,10 @@ document.addEventListener('DOMContentLoaded', () => {
         : 'Locação rápida sem burocracia';
 
       return `
-        <article class="property-card" data-id="${item.id}">
+        <article class="property-card" data-id="${item.id}" data-reveal="fade-up">
           <div class="property-card-media">
             <img class="property-card-img" src="${item.coverImage}" alt="${item.title}" loading="lazy">
-            <div class="property-badge-top-left">
-              ${item.tag ? `<span class="property-tag tag-${item.tagType || 'opportunity'}">${item.tag}</span>` : ''}
-            </div>
             <span class="property-purpose-pill">${item.purpose === 'venda' ? 'Venda' : 'Locação'}</span>
-            <span class="property-code-pill">${item.code}</span>
           </div>
 
           <div class="property-card-body">
@@ -208,6 +204,11 @@ document.addEventListener('DOMContentLoaded', () => {
         openPropertyModal(id);
       });
     });
+
+    // Reativa observer de scroll nos novos cards renderizados
+    if (typeof window.refreshScrollObserver === 'function') {
+      window.refreshScrollObserver();
+    }
   }
 
   function buildWhatsAppLink(item) {

@@ -21,9 +21,15 @@
   <!-- Favicon -->
   <link rel="icon" type="image/svg+xml" href="assets/img/favicon.svg">
 
+  <!-- Google Fonts: Inter & Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
   <!-- Folhas de Estilo Modulares -->
   <link rel="stylesheet" href="css/main.css">
   <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/animations.css">
   <link rel="stylesheet" href="css/simulator.css">
   <link rel="stylesheet" href="css/property-detail.css">
 
@@ -70,7 +76,8 @@
   <aside class="top-bar">
     <div class="container top-bar-inner">
       <div class="top-bar-left">
-        <span class="creci-pill">CRECI PJ - 6623</span>
+        <span class="top-bar-brand">Invest Certo Negócios Imobiliários</span>
+        <span class="top-bar-creci">CRECI PJ-6623</span>
         <div class="top-bar-item top-bar-address">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
@@ -102,8 +109,36 @@
        ========================================================================= -->
   <header class="main-header">
     <div class="container navbar">
-      <a href="#" class="brand-logo" title="Invest Certo Imóveis - Página Inicial">
-        <img src="assets/img/logo.svg" alt="Invest Certo Imóveis" width="220" height="48">
+      <a href="#" class="brand-logo" title="Invest Certo Imóveis - Página Inicial" aria-label="Invest Certo Imóveis">
+        <div class="brand-emblem-box">
+          <svg viewBox="0 0 46 46" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="46" height="46" rx="10" fill="#0F172A"/>
+            <path d="M10 35 L10 19 L20 12 L20 35 Z" fill="#1E293B"/>
+            <path d="M22 35 L22 9 L34 5 L34 35 Z" fill="url(#brandEmeraldGrad)"/>
+            <path d="M8 28 L22 15 L28 19 L38 8 L38 15 L34 19 L28 24 L22 20 L12 30 Z" fill="url(#brandGoldGrad)"/>
+            <polygon points="38,6 42,14 35,11" fill="#F59E0B"/>
+            <rect x="13" y="21" width="3.5" height="3" rx="0.8" fill="#E2E8F0" opacity="0.85"/>
+            <rect x="13" y="26" width="3.5" height="3" rx="0.8" fill="#E2E8F0" opacity="0.85"/>
+            <rect x="25" y="13" width="4.5" height="3.5" rx="0.8" fill="#FFFFFF" opacity="0.95"/>
+            <rect x="25" y="19" width="4.5" height="3.5" rx="0.8" fill="#FFFFFF" opacity="0.95"/>
+            <rect x="25" y="25" width="4.5" height="3.5" rx="0.8" fill="#FFFFFF" opacity="0.95"/>
+            <defs>
+              <linearGradient id="brandEmeraldGrad" x1="0%" y1="100%" x2="100%" y2="0%">
+                <stop offset="0%" stop-color="#047857"/>
+                <stop offset="50%" stop-color="#10B981"/>
+                <stop offset="100%" stop-color="#34D399"/>
+              </linearGradient>
+              <linearGradient id="brandGoldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#D97706"/>
+                <stop offset="100%" stop-color="#F59E0B"/>
+              </linearGradient>
+            </defs>
+          </svg>
+        </div>
+        <div class="brand-text-block">
+          <span class="brand-name-main">INVEST <span class="brand-name-accent">CERTO</span></span>
+          <span class="brand-name-sub">IMÓVEIS • INTELIGÊNCIA IMOBILIÁRIA</span>
+        </div>
       </a>
 
       <nav class="nav-menu" aria-label="Navegação Principal">
@@ -140,7 +175,37 @@
   <aside id="mobile-drawer" class="mobile-drawer" aria-label="Menu Mobile">
     <div>
       <div style="margin-bottom: 24px;">
-        <img src="assets/img/logo.svg" alt="Invest Certo Imóveis" style="height: 42px;">
+        <a href="#" class="brand-logo" style="text-decoration: none;" aria-label="Invest Certo Imóveis">
+          <div class="brand-emblem-box">
+            <svg viewBox="0 0 46 46" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect width="46" height="46" rx="10" fill="#0F172A"/>
+              <path d="M10 35 L10 19 L20 12 L20 35 Z" fill="#1E293B"/>
+              <path d="M22 35 L22 9 L34 5 L34 35 Z" fill="url(#brandEmeraldGradM)"/>
+              <path d="M8 28 L22 15 L28 19 L38 8 L38 15 L34 19 L28 24 L22 20 L12 30 Z" fill="url(#brandGoldGradM)"/>
+              <polygon points="38,6 42,14 35,11" fill="#F59E0B"/>
+              <rect x="13" y="21" width="3.5" height="3" rx="0.8" fill="#E2E8F0" opacity="0.85"/>
+              <rect x="13" y="26" width="3.5" height="3" rx="0.8" fill="#E2E8F0" opacity="0.85"/>
+              <rect x="25" y="13" width="4.5" height="3.5" rx="0.8" fill="#FFFFFF" opacity="0.95"/>
+              <rect x="25" y="19" width="4.5" height="3.5" rx="0.8" fill="#FFFFFF" opacity="0.95"/>
+              <rect x="25" y="25" width="4.5" height="3.5" rx="0.8" fill="#FFFFFF" opacity="0.95"/>
+              <defs>
+                <linearGradient id="brandEmeraldGradM" x1="0%" y1="100%" x2="100%" y2="0%">
+                  <stop offset="0%" stop-color="#047857"/>
+                  <stop offset="50%" stop-color="#10B981"/>
+                  <stop offset="100%" stop-color="#34D399"/>
+                </linearGradient>
+                <linearGradient id="brandGoldGradM" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#D97706"/>
+                  <stop offset="100%" stop-color="#F59E0B"/>
+                </linearGradient>
+              </defs>
+            </svg>
+          </div>
+          <div class="brand-text-block">
+            <span class="brand-name-main">INVEST <span class="brand-name-accent">CERTO</span></span>
+            <span class="brand-name-sub">IMÓVEIS • INTELIGÊNCIA IMOBILIÁRIA</span>
+          </div>
+        </a>
       </div>
       <div class="mobile-nav-links">
         <a href="#inicio" class="mobile-nav-link active">Início</a>
@@ -166,35 +231,30 @@
   <section id="inicio" class="hero-section">
     <div class="hero-glow"></div>
     <div class="container hero-content">
-      <div class="hero-badge">
-        <span class="pulse-dot"></span>
-        <span>CRECI PJ - 6623 • Referência em Ibirité, Sarzedo e Grande BH</span>
-      </div>
-
-      <h1 class="hero-title">
+      <h1 class="hero-title hero-load-anim hero-load-delay-1">
         Encontre o Imóvel Certo para <span class="highlight-text">Morar ou Investir</span> com Segurança Total
       </h1>
 
-      <p class="hero-subtitle">
+      <p class="hero-subtitle hero-load-anim hero-load-delay-2">
         Casas contemporâneas, apartamentos com área privativa e lotes selecionados na região metropolitana, com assessoria jurídica completa e aprovação de financiamento bancário rápida.
       </p>
 
       <!-- Métricas de Credibilidade -->
-      <div class="hero-stats-row">
+      <div class="hero-stats-row hero-load-anim hero-load-delay-3" data-reveal="fade-up">
         <div class="hero-stat-card">
-          <div class="hero-stat-value">+R$ 180M<span class="accent">+</span></div>
+          <div class="hero-stat-value"><span data-counter="180" data-counter-prefix="+R$ " data-counter-suffix="M">+R$ 180M</span><span class="accent">+</span></div>
           <div class="hero-stat-label">Em Imóveis Negociados</div>
         </div>
         <div class="hero-stat-card">
-          <div class="hero-stat-value">+950</div>
+          <div class="hero-stat-value"><span data-counter="950" data-counter-prefix="+">+950</span></div>
           <div class="hero-stat-label">Famílias com Chaves na Mão</div>
         </div>
         <div class="hero-stat-card">
-          <div class="hero-stat-value">100<span class="accent">%</span></div>
+          <div class="hero-stat-value"><span data-counter="100" data-counter-suffix="%">100%</span></div>
           <div class="hero-stat-label">Segurança Jurídica & Transparência</div>
         </div>
         <div class="hero-stat-card">
-          <div class="hero-stat-value">24h</div>
+          <div class="hero-stat-value"><span data-counter="24" data-counter-suffix="h">24h</span></div>
           <div class="hero-stat-label">Aprovação Média de Crédito</div>
         </div>
       </div>
@@ -204,7 +264,7 @@
   <!-- =========================================================================
        4. BARRA DE BUSCA INTELIGENTE EM TEMPO REAL
        ========================================================================= -->
-  <section class="search-container">
+  <section class="search-container" data-reveal="fade-up">
     <div class="search-box">
       <!-- Alternador Comprar / Alugar -->
       <div class="search-purpose-tabs">
@@ -301,10 +361,9 @@
   <!-- =========================================================================
        5. VITRINE DE IMÓVEIS (CATÁLOGO DINÂMICO 2026)
        ========================================================================= -->
-  <section id="vitrine-imoveis" class="section-spacing">
+  <section id="vitrine-imoveis" class="section-spacing" data-reveal="fade-up">
     <div class="container">
       <div class="section-header">
-        <span class="section-tag">Catálogo Exclusivo</span>
         <h2 id="active-category-title" class="section-title">Oportunidades em Ibirité, Sarzedo e Região</h2>
         <p class="section-desc">Imóveis inspecionados, com documentação 100% regularizada e prontos para morar ou financiar.</p>
       </div>
@@ -325,7 +384,7 @@
       </div>
 
       <!-- Grid Reativo Onde os Cards São Injetados -->
-      <div id="properties-grid" class="properties-grid">
+      <div id="properties-grid" class="properties-grid" data-stagger="true">
         <!-- Renderizado dinamicamente via js/app.js -->
       </div>
     </div>
@@ -334,10 +393,9 @@
   <!-- =========================================================================
        6. SIMULADOR DE FINANCIAMENTO INTERATIVO COM BANCOS PARCEIROS
        ========================================================================= -->
-  <section id="simulador-financiamento" class="section-spacing simulator-section">
+  <section id="simulador-financiamento" class="section-spacing simulator-section" data-reveal="fade-up">
     <div class="container">
       <div class="section-header">
-        <span class="section-tag">Crédito Imobiliário Ágil</span>
         <h2 class="section-title">Simulador de Financiamento Bancário</h2>
         <p class="section-desc">Descubra na hora a parcela estimada para o seu imóvel dos sonhos nos sistemas SAC e PRICE.</p>
       </div>
@@ -500,11 +558,10 @@
   <!-- =========================================================================
        7. SOBRE A EMPRESA & DIFERENCIAIS INSTITUCIONAIS
        ========================================================================= -->
-  <section id="sobre" class="section-spacing" style="background: #ffffff;">
+  <section id="sobre" class="section-spacing" style="background: #ffffff;" data-reveal="fade-up">
     <div class="container">
       <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: center;">
         <div>
-          <span class="section-tag">Quem Somos</span>
           <h2 class="section-title">Construindo uma História Sólida no Mercado Imobiliário</h2>
           <p style="color: var(--color-slate-600); line-height: 1.7; margin-bottom: 20px;">
             A <strong>Invest Certo Negócios Imobiliários</strong> iniciou suas atividades com a missão clara de transformar o mercado imobiliário de Ibirité e região, atuando com integridade absoluta, ética profissional e máxima transparência.
@@ -590,9 +647,8 @@
   <!-- =========================================================================
        8. BANNER: ANUNCIE SEU IMÓVEL / SEU IMÓVEL AQUI
        ========================================================================= -->
-  <section class="section-spacing" style="background: linear-gradient(135deg, var(--color-navy-950) 0%, var(--color-navy-900) 100%); color: #ffffff;">
+  <section class="section-spacing" style="background: linear-gradient(135deg, var(--color-navy-950) 0%, var(--color-navy-900) 100%); color: #ffffff;" data-reveal="fade-up">
     <div class="container" style="text-align: center; max-width: 800px;">
-      <span class="section-tag" style="background: rgba(16, 185, 129, 0.15); border-color: rgba(16, 185, 129, 0.3);">Área do Proprietário</span>
       <h2 style="font-family: var(--font-heading); font-size: 2.5rem; font-weight: 800; margin-bottom: 16px; color: #ffffff;">
         Quer Vender ou Alugar seu Imóvel com Rapidez?
       </h2>
@@ -613,10 +669,9 @@
   <!-- =========================================================================
        9. CONTATO & LOCALIZAÇÃO
        ========================================================================= -->
-  <section id="contato" class="section-spacing">
+  <section id="contato" class="section-spacing" data-reveal="fade-up">
     <div class="container">
       <div class="section-header">
-        <span class="section-tag">Fale Conosco</span>
         <h2 class="section-title">Estamos Prontos para Atender Você</h2>
         <p class="section-desc">Venha nos fazer uma visita em nosso escritório no Centro de Ibirité ou fale conosco diretamente pelos canais digitais.</p>
       </div>
@@ -986,6 +1041,7 @@
   <script src="js/data.js"></script>
   <script src="js/search.js"></script>
   <script src="js/simulator.js"></script>
+  <script src="js/scroll-effects.js"></script>
   <script src="js/app.js"></script>
 
   <script>

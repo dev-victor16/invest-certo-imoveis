@@ -338,30 +338,28 @@
 
 .property-purpose-pill {
   position: absolute;
-  bottom: 14px;
+  bottom: 12px;
   left: 14px;
-  background: rgba(15, 23, 42, 0.85);
-  backdrop-filter: blur(6px);
+  background: transparent !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  border-radius: 0 !important;
   color: #ffffff;
-  font-size: 0.75rem;
-  font-weight: 700;
-  padding: 4px 10px;
-  border-radius: var(--radius-xs);
+  opacity: 0.72;
+  font-size: 0.78125rem;
+  font-weight: 600;
+  letter-spacing: 0.8px;
   text-transform: uppercase;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.85);
+  pointer-events: none;
 }
 
-.property-code-pill {
-  position: absolute;
-  top: 14px;
-  right: 14px;
-  background: rgba(255, 255, 255, 0.9);
-  backdrop-filter: blur(4px);
-  color: var(--color-navy-900);
-  font-size: 0.75rem;
-  font-weight: 800;
-  padding: 4px 9px;
-  border-radius: var(--radius-xs);
-  box-shadow: var(--shadow-xs);
+.property-code-pill,
+.property-badge-top-left {
+  display: none !important;
 }
 
 /* Corpo do Card */

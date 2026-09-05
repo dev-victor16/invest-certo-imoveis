@@ -16,6 +16,11 @@
     <filter id="subtleGlow" x="-10%" y="-10%" width="120%" height="120%">
       <feDropShadow dx="0" dy="4" stdDeviation="4" flood-color="#10B981" flood-opacity="0.25" />
     </filter>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@800&amp;family=Inter:wght@700&amp;display=swap');
+      .logo-title { font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; font-weight: 800; font-size: 34px; letter-spacing: -0.5px; fill: #0F172A; }
+      .logo-sub { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; font-weight: 700; font-size: 11px; letter-spacing: 3.5px; fill: #64748B; }
+    </style>
   </defs>
 
   <!-- Logo Mark / Icon -->
