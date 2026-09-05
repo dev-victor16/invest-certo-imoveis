@@ -150,15 +150,13 @@
       </nav>
 
       <div class="nav-cta-group">
-        <button onclick="openOwnerModal()" class="btn btn-outline btn-sm nav-cta-desktop" title="Anunciar Imóvel com a Invest Certo">
-          Anuncie seu Imóvel
-        </button>
-        <a href="https://wa.me/5531999389792?text=Ol%C3%A1%2C%20Davidson!%20Gostaria%20de%20um%20atendimento%20imobili%C3%A1rio%20com%20a%20Invest%20Certo." target="_blank" rel="noopener" class="btn btn-primary btn-sm">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0 0 12.04 2zm5.79 14.07c-.24.67-1.39 1.25-1.92 1.32-.49.07-1.13.1-3.29-.79-2.76-1.15-4.54-3.95-4.68-4.14-.14-.19-1.11-1.48-1.11-2.82 0-1.34.7-2 .95-2.27.25-.27.55-.34.73-.34.19 0 .37 0 .53.01.17.01.4.06.61.53.24.58.82 2 .89 2.15.07.15.12.33.02.53-.1.19-.15.31-.3.48-.15.17-.31.38-.45.51-.15.15-.31.31-.13.62.18.31.79 1.3 1.7 2.11 1.17 1.04 2.15 1.36 2.46 1.51.31.15.49.13.67-.08.18-.21.79-.92 1-1.23.21-.31.43-.26.73-.15.3.11 1.91.9 2.24 1.06.33.17.55.25.63.39.08.14.08.82-.16 1.49z"/>
+        <!-- Botão de Favoritos / Curtidas (Coração) -->
+        <button id="header-favorites-btn" class="nav-favorites-btn" aria-label="Ver imóveis curtidos" title="Meus Imóveis Curtidos (Favoritos)">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
           </svg>
-          <span>Falar com Corretor</span>
-        </a>
+          <span class="favorites-count-badge" id="favorites-count-badge">0</span>
+        </button>
 
         <!-- Botão Hambúrguer Mobile -->
         <button id="mobile-toggle" class="mobile-toggle" aria-label="Abrir menu de navegação">
@@ -216,6 +214,12 @@
       </div>
     </div>
     <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 24px;">
+      <button id="mobile-drawer-favorites-btn" class="btn btn-outline" style="width: 100%; display: flex; align-items: center; justify-content: center; gap: 8px;">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="#EF4444" stroke="#EF4444" stroke-width="2">
+          <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+        </svg>
+        <span>Imóveis Curtidos (<span id="mobile-fav-counter">0</span>)</span>
+      </button>
       <button onclick="openOwnerModal()" class="btn btn-outline" style="width: 100%;">
         Anuncie seu Imóvel
       </button>
@@ -369,8 +373,11 @@
       </div>
 
       <!-- Abas de Filtro Rápido em Pílulas -->
-      <div style="display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; margin-bottom: 36px;">
+      <div class="category-chips-wrap">
         <button class="purpose-tab-btn category-chip active" data-category="todos">Todos</button>
+        <button class="purpose-tab-btn category-chip" data-category="favoritos" id="chip-favoritos">
+          ❤️ Curtidos (<span id="fav-chip-counter">0</span>)
+        </button>
         <button class="purpose-tab-btn category-chip" data-category="casa">Casas</button>
         <button class="purpose-tab-btn category-chip" data-category="apartamento">Apartamentos</button>
         <button class="purpose-tab-btn category-chip" data-category="cobertura">Coberturas</button>
@@ -560,7 +567,7 @@
        ========================================================================= -->
   <section id="sobre" class="section-spacing" style="background: #ffffff;" data-reveal="fade-up">
     <div class="container">
-      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: center;">
+      <div class="about-grid">
         <div>
           <h2 class="section-title">Construindo uma História Sólida no Mercado Imobiliário</h2>
           <p style="color: var(--color-slate-600); line-height: 1.7; margin-bottom: 20px;">
@@ -571,7 +578,7 @@
           </p>
 
           <!-- Diferenciais em Lista -->
-          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-bottom: 32px;">
+          <div class="about-features-grid">
             <div style="display: flex; gap: 12px;">
               <div style="width: 42px; height: 42px; border-radius: var(--radius-md); background: var(--color-emerald-50); color: var(--color-emerald-600); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
                 <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -676,7 +683,7 @@
         <p class="section-desc">Venha nos fazer uma visita em nosso escritório no Centro de Ibirité ou fale conosco diretamente pelos canais digitais.</p>
       </div>
 
-      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 36px;">
+      <div class="contact-grid">
         <!-- Card de Informações e Mapa -->
         <div style="background: var(--bg-surface); padding: 36px; border-radius: var(--radius-xl); border: 1px solid var(--border-color); box-shadow: var(--shadow-sm);">
           <h3 style="font-family: var(--font-heading); font-size: 1.35rem; font-weight: 700; margin-bottom: 20px; color: var(--color-navy-900);">Informações de Contato</h3>
@@ -736,7 +743,7 @@
               <input type="text" id="contact-name" class="search-input" placeholder="Ex: João da Silva" required>
             </div>
 
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px;">
+            <div class="form-row-2col">
               <div>
                 <label for="contact-phone" style="font-size: 0.8125rem; font-weight: 700; color: var(--color-slate-700); display: block; margin-bottom: 6px;">Telefone / WhatsApp</label>
                 <input type="tel" id="contact-phone" class="search-input" placeholder="(31) 99999-9999" required>
@@ -1043,6 +1050,54 @@
   <script src="js/simulator.js"></script>
   <script src="js/scroll-effects.js"></script>
   <script src="js/app.js"></script>
+
+  <!-- =========================================================================
+       DRAWER / MODAL DE IMÓVEIS CURTIDOS (FAVORITOS)
+       ========================================================================= -->
+  <div id="favorites-backdrop" class="modal-backdrop">
+    <div class="favorites-drawer" role="dialog" aria-modal="true" aria-labelledby="fav-drawer-title">
+      <div class="favorites-drawer-header">
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <div class="fav-header-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="#EF4444" stroke="#EF4444" stroke-width="2">
+              <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+            </svg>
+          </div>
+          <div>
+            <h3 id="fav-drawer-title" style="font-family: var(--font-heading); font-size: 1.25rem; font-weight: 800; color: var(--color-navy-950); line-height: 1.2;">Imóveis Curtidos</h3>
+            <span id="fav-drawer-subtitle" style="font-size: 0.8125rem; color: var(--text-muted);">0 imóvel salvo</span>
+          </div>
+        </div>
+        <button id="favorites-close-btn" class="modal-close-btn" aria-label="Fechar gaveta de favoritos">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+
+      <div id="favorites-drawer-list" class="favorites-drawer-list">
+        <!-- Renderizado dinamicamente via js/app.js -->
+      </div>
+
+      <div id="favorites-drawer-footer" class="favorites-drawer-footer">
+        <a id="btn-wa-all-favorites" href="#" target="_blank" rel="noopener" class="btn btn-primary" style="width: 100%; justify-content: center; gap: 8px;">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0 0 12.04 2zm5.79 14.07c-.24.67-1.39 1.25-1.92 1.32-.49.07-1.13.1-3.29-.79-2.76-1.15-4.54-3.95-4.68-4.14-.14-.19-1.11-1.48-1.11-2.82 0-1.34.7-2 .95-2.27.25-.27.55-.34.73-.34.19 0 .37 0 .53.01.17.01.4.06.61.53.24.58.82 2 .89 2.15.07.15.12.33.02.53-.1.19-.15.31-.3.48-.15.17-.31.38-.45.51-.15.15-.31.31-.13.62.18.31.79 1.3 1.7 2.11 1.17 1.04 2.15 1.36 2.46 1.51.31.15.49.13.67-.08.18-.21.79-.92 1-1.23.21-.31.43-.26.73-.15.3.11 1.91.9 2.24 1.06.33.17.55.25.63.39.08.14.08.82-.16 1.49z"/>
+          </svg>
+          <span>Consultar Curtidos no WhatsApp</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast de Notificação -->
+  <div id="fav-toast" class="fav-toast">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="#EF4444" stroke="#EF4444" stroke-width="2">
+      <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+    </svg>
+    <span id="fav-toast-text">Imóvel salvo nos favoritos!</span>
+  </div>
 
   <script>
     function handleDirectContact(e) {

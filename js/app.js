@@ -38,6 +38,21 @@ document.addEventListener('DOMContentLoaded', () => {
   const mobileToggle = document.getElementById('mobile-toggle');
   const mobileDrawer = document.getElementById('mobile-drawer');
   const drawerBackdrop = document.getElementById('drawer-backdrop');
+  const mobileDrawerFavoritesBtn = document.getElementById('mobile-drawer-favorites-btn');
+  const mobileFavCounter = document.getElementById('mobile-fav-counter');
+
+  // Favorites Elements (Coração / Curtidos)
+  const headerFavoritesBtn = document.getElementById('header-favorites-btn');
+  const favoritesCountBadge = document.getElementById('favorites-count-badge');
+  const favChipCounter = document.getElementById('fav-chip-counter');
+  const favoritesBackdrop = document.getElementById('favorites-backdrop');
+  const favoritesDrawer = document.querySelector('.favorites-drawer');
+  const favoritesCloseBtn = document.getElementById('favorites-close-btn');
+  const favoritesDrawerList = document.getElementById('favorites-drawer-list');
+  const favDrawerSubtitle = document.getElementById('fav-drawer-subtitle');
+  const btnWaAllFavorites = document.getElementById('btn-wa-all-favorites');
+  const favToast = document.getElementById('fav-toast');
+  const favToastText = document.getElementById('fav-toast-text');
 
   // Header Scroll Effect
   const mainHeader = document.querySelector('.main-header');
@@ -73,6 +88,266 @@ document.addEventListener('DOMContentLoaded', () => {
         document.body.style.overflow = '';
       });
     });
+
+    if (mobileDrawerFavoritesBtn) {
+      mobileDrawerFavoritesBtn.addEventListener('click', () => {
+        mobileToggle.classList.remove('active');
+        mobileDrawer.classList.remove('open');
+        drawerBackdrop.classList.remove('active');
+        document.body.style.overflow = '';
+        openFavoritesDrawer();
+      });
+    }
+  }
+
+  // =========================================================================
+  // SISTEMA DE CURTIDAS / FAVORITOS (LOCALSTORAGE)
+  // =========================================================================
+  const FAVORITES_STORAGE_KEY = 'invest_certo_favorites';
+
+  function getFavorites() {
+    try {
+      const stored = localStorage.getItem(FAVORITES_STORAGE_KEY);
+      return stored ? JSON.parse(stored) : [];
+    } catch (e) {
+      return [];
+    }
+  }
+
+  function saveFavorites(ids) {
+    try {
+      localStorage.setItem(FAVORITES_STORAGE_KEY, JSON.stringify(ids));
+    } catch (e) {
+      console.error('Erro ao salvar favoritos:', e);
+    }
+  }
+
+  function isPropertyLiked(id) {
+    const list = getFavorites();
+    return list.includes(String(id));
+  }
+
+  function toggleFavorite(id) {
+    const strId = String(id);
+    let list = getFavorites();
+    let isNowLiked = false;
+    if (list.includes(strId)) {
+      list = list.filter(item => item !== strId);
+      isNowLiked = false;
+    } else {
+      list.push(strId);
+      isNowLiked = true;
+    }
+    saveFavorites(list);
+    updateFavoritesUI();
+    return isNowLiked;
+  }
+
+  let favToastTimer = null;
+  function showFavToast(msg) {
+    if (!favToast || !favToastText) return;
+    favToastText.textContent = msg;
+    favToast.classList.add('show');
+    if (favToastTimer) clearTimeout(favToastTimer);
+    favToastTimer = setTimeout(() => {
+      favToast.classList.remove('show');
+    }, 2800);
+  }
+
+  function updateFavoritesUI() {
+    const favs = getFavorites();
+    const count = favs.length;
+
+    // Badges & Contadores
+    if (favoritesCountBadge) {
+      favoritesCountBadge.textContent = count;
+      favoritesCountBadge.classList.remove('bounce');
+      void favoritesCountBadge.offsetWidth; // aciona reflow da animacao
+      favoritesCountBadge.classList.add('bounce');
+    }
+    if (headerFavoritesBtn) {
+      if (count > 0) {
+        headerFavoritesBtn.classList.add('has-items');
+      } else {
+        headerFavoritesBtn.classList.remove('has-items');
+      }
+    }
+    if (favChipCounter) {
+      favChipCounter.textContent = count;
+    }
+    if (mobileFavCounter) {
+      mobileFavCounter.textContent = count;
+    }
+    if (favDrawerSubtitle) {
+      favDrawerSubtitle.textContent = `${count} ${count === 1 ? 'imóvel salvo' : 'imóveis salvos'}`;
+    }
+
+    // Atualiza ícones dos cards atualmente na tela
+    document.querySelectorAll('.card-like-btn').forEach(btn => {
+      const id = btn.getAttribute('data-like-id');
+      const liked = favs.includes(String(id));
+      const svg = btn.querySelector('svg');
+      if (liked) {
+        btn.classList.add('liked');
+        btn.setAttribute('aria-label', 'Remover dos curtidos');
+        btn.setAttribute('title', 'Remover dos favoritos');
+        if (svg) {
+          svg.setAttribute('fill', '#EF4444');
+          svg.setAttribute('stroke', '#EF4444');
+        }
+      } else {
+        btn.classList.remove('liked');
+        btn.setAttribute('aria-label', 'Curtir imóvel');
+        btn.setAttribute('title', 'Salvar nos favoritos');
+        if (svg) {
+          svg.setAttribute('fill', 'none');
+          svg.setAttribute('stroke', 'currentColor');
+        }
+      }
+    });
+
+    renderFavoritesDrawer();
+  }
+
+  function renderFavoritesDrawer() {
+    if (!favoritesDrawerList) return;
+    const favs = getFavorites();
+    const likedProperties = PROPERTIES_DATA.filter(p => favs.includes(String(p.id)));
+
+    if (likedProperties.length === 0) {
+      favoritesDrawerList.innerHTML = `
+        <div class="favorites-empty-state">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+          </svg>
+          <h4 style="font-family: var(--font-heading); font-size: 1.1rem; color: var(--color-navy-900); margin-bottom: 6px;">Nenhum imóvel curtido ainda</h4>
+          <p style="font-size: 0.875rem; color: var(--text-muted); line-height: 1.5;">Clique no ícone de coração ❤️ nos imóveis que você mais gostar para salvá-los e compará-los com facilidade.</p>
+        </div>
+      `;
+      if (btnWaAllFavorites) {
+        btnWaAllFavorites.style.display = 'none';
+      }
+      return;
+    }
+
+    if (btnWaAllFavorites) {
+      btnWaAllFavorites.style.display = 'flex';
+      const itemsListText = likedProperties.map((p, idx) => `${idx + 1}. *${p.code} - ${p.title}* (${FinanceCalculator.formatCurrency(p.price)}${p.purpose === 'locacao' ? '/mês' : ''}, no bairro ${p.neighborhood})`).join('%0A');
+      const waMessage = `Olá, Davidson! Salvei ${likedProperties.length} ${likedProperties.length === 1 ? 'imóvel favorito' : 'imóveis favoritos'} no site da Invest Certo Imóveis e gostaria de receber mais detalhes e verificar a disponibilidade:%0A%0A${itemsListText}`;
+      btnWaAllFavorites.href = `https://wa.me/${INVEST_CERTO_INFO.phoneRaw}?text=${waMessage}`;
+    }
+
+    favoritesDrawerList.innerHTML = likedProperties.map(item => `
+      <div class="fav-card-item" data-fav-id="${item.id}">
+        <img src="${item.coverImage}" class="fav-card-thumb" alt="${item.title}" data-open-fav="${item.id}">
+        <div class="fav-card-info">
+          <div class="fav-card-title" data-open-fav="${item.id}" title="${item.title}">${item.title}</div>
+          <div class="fav-card-loc">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+              <circle cx="12" cy="10" r="3"></circle>
+            </svg>
+            <span>${item.neighborhood}, ${item.city}</span>
+          </div>
+          <div class="fav-card-price">${FinanceCalculator.formatCurrency(item.price)}${item.purpose === 'locacao' ? '<span style="font-size: 0.75rem; font-weight: normal; color: var(--text-muted);">/mês</span>' : ''}</div>
+          <div class="fav-card-actions">
+            <a href="${buildWhatsAppLink(item)}" target="_blank" rel="noopener" class="btn btn-primary btn-sm" style="padding: 4px 10px; font-size: 0.75rem;">
+              WhatsApp
+            </a>
+            <button class="btn-fav-remove" data-remove-fav="${item.id}" title="Remover dos curtidos" aria-label="Remover">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="3 6 5 6 21 6"></polyline>
+                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    `).join('');
+
+    // Abertura do modal ao clicar na foto ou título
+    favoritesDrawerList.querySelectorAll('[data-open-fav]').forEach(el => {
+      el.addEventListener('click', (e) => {
+        const id = e.currentTarget.getAttribute('data-open-fav');
+        closeFavoritesDrawer();
+        openPropertyModal(id);
+      });
+    });
+
+    // Botão de remover favorito diretamente na gaveta
+    favoritesDrawerList.querySelectorAll('[data-remove-fav]').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const id = e.currentTarget.getAttribute('data-remove-fav');
+        toggleFavorite(id);
+        showFavToast('Imóvel removido dos curtidos.');
+        const activeChip = document.querySelector('.category-chip.active');
+        if (activeChip && activeChip.getAttribute('data-category') === 'favoritos') {
+          renderFavoritesCategory();
+        }
+      });
+    });
+  }
+
+  function openFavoritesDrawer() {
+    if (!favoritesBackdrop || !favoritesDrawer) return;
+    renderFavoritesDrawer();
+    favoritesBackdrop.classList.add('active');
+    favoritesDrawer.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeFavoritesDrawer() {
+    if (!favoritesBackdrop || !favoritesDrawer) return;
+    favoritesDrawer.classList.remove('open');
+    favoritesBackdrop.classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  if (headerFavoritesBtn) {
+    headerFavoritesBtn.addEventListener('click', openFavoritesDrawer);
+  }
+  if (favoritesCloseBtn) {
+    favoritesCloseBtn.addEventListener('click', closeFavoritesDrawer);
+  }
+  if (favoritesBackdrop) {
+    favoritesBackdrop.addEventListener('click', (e) => {
+      if (e.target === favoritesBackdrop) {
+        closeFavoritesDrawer();
+      }
+    });
+  }
+
+  function renderFavoritesCategory() {
+    const favs = getFavorites();
+    const likedProperties = PROPERTIES_DATA.filter(p => favs.includes(String(p.id)));
+    if (activeCategoryTitle) {
+      activeCategoryTitle.textContent = 'Meus Imóveis Curtidos (Favoritos)';
+    }
+
+    if (likedProperties.length === 0) {
+      if (propertiesGrid) {
+        propertiesGrid.innerHTML = `
+          <div style="grid-column: 1 / -1; text-align: center; padding: 60px 20px; background: var(--bg-surface); border-radius: var(--radius-lg); border: 1px dashed var(--border-color);">
+            <div style="font-size: 3.5rem; margin-bottom: 12px;">❤️</div>
+            <h3 style="font-family: var(--font-heading); font-size: 1.35rem; color: var(--color-navy-900); margin-bottom: 8px;">Você ainda não curtiu nenhum imóvel</h3>
+            <p style="color: var(--text-muted); max-width: 480px; margin: 0 auto 20px;">Explore nosso catálogo e clique no ícone de coração ❤️ para salvar os imóveis que você mais gostar.</p>
+            <button id="btn-show-all-from-fav" class="btn btn-primary btn-sm">Explorar Todos os Imóveis</button>
+          </div>
+        `;
+        const btnShowAll = document.getElementById('btn-show-all-from-fav');
+        if (btnShowAll) {
+          btnShowAll.addEventListener('click', () => {
+            const allChip = document.querySelector('.category-chip[data-category="todos"]');
+            if (allChip) allChip.click();
+          });
+        }
+      }
+      if (propertiesCount) propertiesCount.textContent = '0 imóveis curtidos';
+      return;
+    }
+
+    renderProperties(likedProperties);
   }
 
   // =========================================================================
@@ -113,12 +388,18 @@ document.addEventListener('DOMContentLoaded', () => {
       const installmentText = (!isRental && installmentCalc) 
         ? `ou parcela a partir de ${FinanceCalculator.formatCurrency(installmentCalc.firstInstallment)}`
         : 'Locação rápida sem burocracia';
+      const liked = isPropertyLiked(item.id);
 
       return `
         <article class="property-card" data-id="${item.id}" data-reveal="fade-up">
           <div class="property-card-media">
             <img class="property-card-img" src="${item.coverImage}" alt="${item.title}" loading="lazy">
             <span class="property-purpose-pill">${item.purpose === 'venda' ? 'Venda' : 'Locação'}</span>
+            <button class="card-like-btn ${liked ? 'liked' : ''}" data-like-id="${item.id}" aria-label="${liked ? 'Remover dos curtidos' : 'Curtir imóvel'}" title="${liked ? 'Remover dos favoritos' : 'Salvar nos favoritos'}">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="${liked ? '#EF4444' : 'none'}" stroke="${liked ? '#EF4444' : 'currentColor'}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+              </svg>
+            </button>
           </div>
 
           <div class="property-card-body">
@@ -197,6 +478,28 @@ document.addEventListener('DOMContentLoaded', () => {
       `;
     }).join('');
 
+    // Adiciona listener nos botões de curtir (coração)
+    document.querySelectorAll('.card-like-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        e.preventDefault();
+        const id = e.currentTarget.getAttribute('data-like-id');
+        const isNowLiked = toggleFavorite(id);
+        const prop = PROPERTIES_DATA.find(p => String(p.id) === String(id));
+        const propName = prop ? prop.title : 'Imóvel';
+        if (isNowLiked) {
+          showFavToast(`❤️ "${propName}" adicionado aos curtidos!`);
+        } else {
+          showFavToast('Imóvel removido dos favoritos.');
+        }
+
+        const activeChip = document.querySelector('.category-chip.active');
+        if (activeChip && activeChip.getAttribute('data-category') === 'favoritos') {
+          renderFavoritesCategory();
+        }
+      });
+    });
+
     // Adiciona listener nos botões de modal
     document.querySelectorAll('[data-open-modal]').forEach(btn => {
       btn.addEventListener('click', (e) => {
@@ -226,7 +529,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // =========================================================================
-  // ABAS DE CATEGORIA RÁPIDA (TODOS, CASAS, APARTAMENTOS, LOTES, LOCAÇÃO)
+  // ABAS DE CATEGORIA RÁPIDA (TODOS, CURTIDOS, CASAS, APARTAMENTOS, LOTES, LOCAÇÃO)
   // =========================================================================
   document.querySelectorAll('.category-chip').forEach(chip => {
     chip.addEventListener('click', (e) => {
@@ -234,6 +537,11 @@ document.addEventListener('DOMContentLoaded', () => {
       e.currentTarget.classList.add('active');
 
       const cat = e.currentTarget.getAttribute('data-category');
+      if (cat === 'favoritos') {
+        renderFavoritesCategory();
+        return;
+      }
+
       if (cat === 'todos') {
         searchEngine.setFilter('type', '');
         searchEngine.setFilter('purpose', 'venda');
@@ -540,6 +848,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     updateSimulator();
   }
+
+  // Inicialização do estado de favoritos (coração e contadores)
+  updateFavoritesUI();
 
   // Render inicial dos imóveis
   renderProperties(searchEngine.filter());
