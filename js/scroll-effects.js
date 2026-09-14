@@ -66,21 +66,25 @@
 
     const observerOptions = {
       root: null,
-      rootMargin: '0px 0px -40px 0px',
-      threshold: 0.10
+      rootMargin: '0px 0px -30px 0px',
+      threshold: 0
     };
 
     revealObserver = new IntersectionObserver((entries, observer) => {
       entries.forEach(entry => {
-        if (entry.isIntersecting) {
+        if (entry.isIntersecting || entry.intersectionRatio > 0) {
           const target = entry.target;
 
           // Suporte a stagger automático para filhos
           if (target.getAttribute('data-stagger') === 'true') {
             const children = target.children;
+            const isMobile = window.innerWidth <= 768;
             Array.from(children).forEach((child, index) => {
-              const delay = (index * 70) + 'ms';
+              const delay = isMobile ? (Math.min(index, 2) * 40) + 'ms' : (Math.min(index, 8) * 60) + 'ms';
               child.style.transitionDelay = delay;
+              if (isMobile) {
+                child.classList.add('is-revealed');
+              }
             });
           }
 
@@ -96,9 +100,21 @@
   function observeElements() {
     if (!revealObserver) return;
 
+    const windowHeight = window.innerHeight || document.documentElement.clientHeight;
     const elements = document.querySelectorAll('[data-reveal]:not(.is-revealed), [data-stagger="true"]:not(.is-revealed)');
     elements.forEach(el => {
-      revealObserver.observe(el);
+      const rect = el.getBoundingClientRect();
+      // Se o elemento já está dentro da área visível ou acima dela, revela imediatamente
+      if (rect.top < windowHeight && rect.bottom > 0) {
+        if (el.getAttribute('data-stagger') === 'true') {
+          el.classList.add('is-revealed');
+          Array.from(el.children).forEach(c => c.classList.add('is-revealed'));
+        } else {
+          el.classList.add('is-revealed');
+        }
+      } else {
+        revealObserver.observe(el);
+      }
     });
   }
 
@@ -113,7 +129,7 @@
 
     setTimeout(() => {
       observeElements();
-    }, 50);
+    }, 20);
   };
 
   /* ==========================================================================

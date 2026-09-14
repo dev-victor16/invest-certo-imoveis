@@ -127,6 +127,27 @@
   transform: translate3d(0, 0, 0) !important;
 }
 
+/* Garante que cards individuais revelados fiquem 100% visíveis */
+.property-card.is-revealed,
+[data-stagger="true"] > *.is-revealed {
+  opacity: 1 !important;
+  transform: translate3d(0, 0, 0) !important;
+}
+
+@media (max-width: 768px) {
+  /* No mobile, animações mais ágeis e suaves para evitar sensação de tela em branco */
+  [data-reveal] {
+    transition-duration: 0.45s;
+  }
+  [data-reveal="fade-up"] {
+    transform: translate3d(0, 20px, 0);
+  }
+  [data-stagger="true"] > * {
+    transition-duration: 0.45s;
+    transform: translate3d(0, 20px, 0);
+  }
+}
+
 /* Delays escalonados automáticos */
 [data-stagger="true"] > *:nth-child(1) { transition-delay: 0.00s; }
 [data-stagger="true"] > *:nth-child(2) { transition-delay: 0.07s; }
